@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="main.java.com.test.dao.ChannelMapper">
+  <resultMap id="BaseResultMap" type="main.java.com.test.entity.Channel">
+    <id column="channelid" jdbcType="BIGINT" property="channelid" />
+    <result column="chnllogo" jdbcType="VARCHAR" property="chnllogo" />
+    <result column="crtime" jdbcType="TIMESTAMP" property="crtime" />
+    <result column="cruser" jdbcType="VARCHAR" property="cruser" />
+    <result column="chnldesc" jdbcType="VARCHAR" property="chnldesc" />
+    <result column="chnlname" jdbcType="VARCHAR" property="chnlname" />
+    <result column="showname" jdbcType="VARCHAR" property="showname" />
+    <result column="parentid" jdbcType="BIGINT" property="parentid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    channelid, chnllogo, crtime, cruser, chnldesc, chnlname, showname, parentid
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from channel
+    where channelid = #{channelid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from channel
+    where channelid = #{channelid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="main.java.com.test.entity.Channel">
+    insert into channel (channelid, chnllogo, crtime, 
+      cruser, chnldesc, chnlname, 
+      showname, parentid)
+    values (#{channelid,jdbcType=BIGINT}, #{chnllogo,jdbcType=VARCHAR}, #{crtime,jdbcType=TIMESTAMP}, 
+      #{cruser,jdbcType=VARCHAR}, #{chnldesc,jdbcType=VARCHAR}, #{chnlname,jdbcType=VARCHAR}, 
+      #{showname,jdbcType=VARCHAR}, #{parentid,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="main.java.com.test.entity.Channel">
+    insert into channel
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="channelid != null">
+        channelid,
+      </if>
+      <if test="chnllogo != null">
+        chnllogo,
+      </if>
+      <if test="crtime != null">
+        crtime,
+      </if>
+      <if test="cruser != null">
+        cruser,
+      </if>
+      <if test="chnldesc != null">
+        chnldesc,
+      </if>
+      <if test="chnlname != null">
+        chnlname,
+      </if>
+      <if test="showname != null">
+        showname,
+      </if>
+      <if test="parentid != null">
+        parentid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="channelid != null">
+        #{channelid,jdbcType=BIGINT},
+      </if>
+      <if test="chnllogo != null">
+        #{chnllogo,jdbcType=VARCHAR},
+      </if>
+      <if test="crtime != null">
+        #{crtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cruser != null">
+        #{cruser,jdbcType=VARCHAR},
+      </if>
+      <if test="chnldesc != null">
+        #{chnldesc,jdbcType=VARCHAR},
+      </if>
+      <if test="chnlname != null">
+        #{chnlname,jdbcType=VARCHAR},
+      </if>
+      <if test="showname != null">
+        #{showname,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null">
+        #{parentid,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="main.java.com.test.entity.Channel">
+    update channel
+    <set>
+      <if test="chnllogo != null">
+        chnllogo = #{chnllogo,jdbcType=VARCHAR},
+      </if>
+      <if test="crtime != null">
+        crtime = #{crtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cruser != null">
+        cruser = #{cruser,jdbcType=VARCHAR},
+      </if>
+      <if test="chnldesc != null">
+        chnldesc = #{chnldesc,jdbcType=VARCHAR},
+      </if>
+      <if test="chnlname != null">
+        chnlname = #{chnlname,jdbcType=VARCHAR},
+      </if>
+      <if test="showname != null">
+        showname = #{showname,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null">
+        parentid = #{parentid,jdbcType=BIGINT},
+      </if>
+    </set>
+    where channelid = #{channelid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="main.java.com.test.entity.Channel">
+    update channel
+    set chnllogo = #{chnllogo,jdbcType=VARCHAR},
+      crtime = #{crtime,jdbcType=TIMESTAMP},
+      cruser = #{cruser,jdbcType=VARCHAR},
+      chnldesc = #{chnldesc,jdbcType=VARCHAR},
+      chnlname = #{chnlname,jdbcType=VARCHAR},
+      showname = #{showname,jdbcType=VARCHAR},
+      parentid = #{parentid,jdbcType=BIGINT}
+    where channelid = #{channelid,jdbcType=BIGINT}
+  </update>
+  <resultMap id="BaseResultMap" type="com.test.entity.Channel">
+    <id column="channelid" jdbcType="BIGINT" property="channelid" />
+    <result column="chnllogo" jdbcType="VARCHAR" property="chnllogo" />
+    <result column="crtime" jdbcType="TIMESTAMP" property="crtime" />
+    <result column="cruser" jdbcType="VARCHAR" property="cruser" />
+    <result column="chnldesc" jdbcType="VARCHAR" property="chnldesc" />
+    <result column="chnlname" jdbcType="VARCHAR" property="chnlname" />
+    <result column="showname" jdbcType="VARCHAR" property="showname" />
+    <result column="parentid" jdbcType="BIGINT" property="parentid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    channelid, chnllogo, crtime, cruser, chnldesc, chnlname, showname, parentid
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from channel
+    where channelid = #{channelid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from channel
+    where channelid = #{channelid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.test.entity.Channel">
+    insert into channel (channelid, chnllogo, crtime, 
+      cruser, chnldesc, chnlname, 
+      showname, parentid)
+    values (#{channelid,jdbcType=BIGINT}, #{chnllogo,jdbcType=VARCHAR}, #{crtime,jdbcType=TIMESTAMP}, 
+      #{cruser,jdbcType=VARCHAR}, #{chnldesc,jdbcType=VARCHAR}, #{chnlname,jdbcType=VARCHAR}, 
+      #{showname,jdbcType=VARCHAR}, #{parentid,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.test.entity.Channel">
+    insert into channel
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="channelid != null">
+        channelid,
+      </if>
+      <if test="chnllogo != null">
+        chnllogo,
+      </if>
+      <if test="crtime != null">
+        crtime,
+      </if>
+      <if test="cruser != null">
+        cruser,
+      </if>
+      <if test="chnldesc != null">
+        chnldesc,
+      </if>
+      <if test="chnlname != null">
+        chnlname,
+      </if>
+      <if test="showname != null">
+        showname,
+      </if>
+      <if test="parentid != null">
+        parentid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="channelid != null">
+        #{channelid,jdbcType=BIGINT},
+      </if>
+      <if test="chnllogo != null">
+        #{chnllogo,jdbcType=VARCHAR},
+      </if>
+      <if test="crtime != null">
+        #{crtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cruser != null">
+        #{cruser,jdbcType=VARCHAR},
+      </if>
+      <if test="chnldesc != null">
+        #{chnldesc,jdbcType=VARCHAR},
+      </if>
+      <if test="chnlname != null">
+        #{chnlname,jdbcType=VARCHAR},
+      </if>
+      <if test="showname != null">
+        #{showname,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null">
+        #{parentid,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.test.entity.Channel">
+    update channel
+    <set>
+      <if test="chnllogo != null">
+        chnllogo = #{chnllogo,jdbcType=VARCHAR},
+      </if>
+      <if test="crtime != null">
+        crtime = #{crtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cruser != null">
+        cruser = #{cruser,jdbcType=VARCHAR},
+      </if>
+      <if test="chnldesc != null">
+        chnldesc = #{chnldesc,jdbcType=VARCHAR},
+      </if>
+      <if test="chnlname != null">
+        chnlname = #{chnlname,jdbcType=VARCHAR},
+      </if>
+      <if test="showname != null">
+        showname = #{showname,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null">
+        parentid = #{parentid,jdbcType=BIGINT},
+      </if>
+    </set>
+    where channelid = #{channelid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.test.entity.Channel">
+    update channel
+    set chnllogo = #{chnllogo,jdbcType=VARCHAR},
+      crtime = #{crtime,jdbcType=TIMESTAMP},
+      cruser = #{cruser,jdbcType=VARCHAR},
+      chnldesc = #{chnldesc,jdbcType=VARCHAR},
+      chnlname = #{chnlname,jdbcType=VARCHAR},
+      showname = #{showname,jdbcType=VARCHAR},
+      parentid = #{parentid,jdbcType=BIGINT}
+    where channelid = #{channelid,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- <beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/tx  http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/jee  http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+	http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd"
+	default-lazy-init="true"> -->
+	<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:util="http://www.springframework.org/schema/util" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:cache="http://www.springframework.org/schema/cache"  
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.2.xsd
+		http://www.springframework.org/schema/cache   
+        http://www.springframework.org/schema/cache/spring-cache.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+ 
+	<!-- 开启自动切面代理 -->
+	<aop:aspectj-autoproxy />
+	<!-- 开启注解 -->
+	<context:annotation-config />
+	<!-- 使用annotation 自动注册bean -->
+	<context:component-scan base-package="com.test" 	annotation-config="true">
+		 <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+	
+	<!-- #################################################################### -->
+	<!-- # 装载属性占位符配置 -->
+	<!-- #################################################################### -->
+	<bean id="customProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean" p:ignoreResourceNotFound="true">
+		<property name="locations">
+			<!-- 禁止调整加载顺序(注：系统以list最后一个有效的value元素为准) -->
+			<list>
+				<!-- The first pair -->
+				<value>classpath:/applicationContext.properties</value>
+				<!-- 
+				<value>file:///etc/icconfig/wms/applicationContext.properties</value>
+				 -->
+				<!-- The second pair -->
+				<!-- The third pair -->
+				<!-- The fourth pair -->
+				<!-- The fifth pair -->
+			</list>
+		</property>
+	</bean>
+	<context:property-placeholder properties-ref="customProperties" />
+	
+
+	<!-- 配置数据源 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<property name="jdbcUrl"
+			value="jdbc:mysql://${db.ip}:${db.port}/${db.name}?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull" />
+		<property name="user" value="${db.user}" />
+		<property name="password" value="${db.pwd}" />
+		<property name="minPoolSize" value="10" />
+		<property name="maxPoolSize" value="30" />
+		<property name="maxIdleTime" value="30" />
+		<property name="acquireIncrement" value="5" />
+		<property name="idleConnectionTestPeriod" value="60" />
+		<property name="acquireRetryAttempts" value="30" />
+		<property name="breakAfterAcquireFailure" value="false" />
+		<property name="numHelperThreads" value="5" />
+		<property name="acquireRetryDelay" value="500" />
+		<property name="autoCommitOnClose" value="true" />
+		<property name="propertyCycle" value="300" />
+		<property name="checkoutTimeout" value="5000" />
+	</bean>
+
+	<!-- 定义事务通知 -->
+	 <bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+		    <tx:method name="gernerateSerialNumber*" propagation="REQUIRES_NEW" rollback-for="java.lang.Exception" />
+			<tx:method name="save*" propagation="REQUIRED"
+				rollback-for="java.lang.Exception" />
+			<tx:method name="insert*" propagation="REQUIRED"
+				rollback-for="java.lang.Exception" />
+			<tx:method name="add*" propagation="REQUIRED" rollback-for="java.lang.Exception" />
+			<tx:method name="update*" propagation="REQUIRED"
+				rollback-for="java.lang.Exception" />
+			<tx:method name="edit*" propagation="REQUIRED"
+				rollback-for="java.lang.Exception" />
+			<tx:method name="delete*" propagation="REQUIRED" rollback-for="java.lang.Exception" />
+			<tx:method name="remove*" propagation="REQUIRED"
+				rollback-for="java.lang.Exception" />
+			<tx:method name="generateCreate*" propagation="REQUIRES_NEW"
+				rollback-for="java.lang.Exception" />
+			<tx:method name="find*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="get*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="*" propagation="SUPPORTS" read-only="true" />
+		</tx:attributes>
+	</tx:advice> 
+    
+    
+    <import resource="classpath:/applicationContext-mybatis.xml" />
+    <import resource="classpath:/applicationContext-cache.xml" />
+    
+</beans>
